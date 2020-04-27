@@ -4,8 +4,11 @@
 #include "food.h"
 #include <QTimer>
 #include <QTransform>
+#include <QLabel>
 #include <iostream>
 #include <string>
+
+string prev_dir;
 
 snake::snake() {
   // connect
@@ -27,34 +30,49 @@ void snake::keyPressEvent(QKeyEvent * event) {
   QTransform t;
   t.rotate(90); // rotate 90 degrees
   t.translate(-center.x(), -center.y()); // rotate around item center
-
-  if (event->key() == Qt::Key_Left) {
-    if (pos().x() > 0)
-    //setPos(x()-10, y());
-    setRotation(rotation() + 90);
-    if (!this->direction.compare("left")) { // if snake is already going left, it is now moving down
-      this->direction = "down";
-    } else if (!this->direction.compare("down")) {
-      this->direction = "right";
-    } else if (!this->direction.compare("right")) {
-      this->direction = "up";
-    }
-  } else if (event->key() == Qt::Key_Right) {
-      if (pos().x() + 5 < 700) // check that snake is within screen bounds
-      setPos(x()+10, y());
-      setRotation(rotation() - 90);
-      this->direction = "right";
-  } else if (event->key() == Qt::Key_Up) {
-      if (pos().y() < 700)
-      setPos(x(), y()-10);
-      this->direction = "up";
-  } else if (event->key() == Qt::Key_Down) {
-     if (pos().y() > 0)
-        setPos(x(), y()+10);
-     this->direction = "down";
-  } else if (event->key() == Qt::Key_Space) {
-    food * newfood = new food();
-    scene()->addItem(newfood);
+  if ((pos().x() + 5 < 700) && (pos().x() > 0) && (pos().x() + 5 < 700) && (pos().x() > 0)) {
+	  if (event->key() == Qt::Key_Left) {
+		
+		if (!this->direction.compare("up")) { // if snake is already going left, it is now moving down
+		  setRotation(rotation() - 90);
+		} else if (!this->direction.compare("down")) {
+		  setRotation(rotation() + 90);
+		} 
+		this->direction = "left";
+	  } else if (event->key() == Qt::Key_Right) {
+		  //setPos(x()+10, y());
+		  if (!this->direction.compare("up")) { // if snake is already going left, it is now moving down
+		  	setRotation(rotation() + 90);
+	   	  } else if (!this->direction.compare("down")) {
+		    setRotation(rotation() - 90);
+		  } 
+		  this->direction = "right";
+	  } else if (event->key() == Qt::Key_Up) {
+		  //setPos(x(), y()-10);
+		  
+		  if (!this->direction.compare("left")) { // if snake is already going left, it is now moving down
+		  	setRotation(rotation() + 90);
+	   	  } else if (!this->direction.compare("right")) {
+		    setRotation(rotation() - 90);
+		  } 
+		  this->direction = "up";
+	  } else if (event->key() == Qt::Key_Down) {
+		    //setPos(x(), y()+10);
+		 if (!this->direction.compare("left")) { // if snake is already going left, it is now moving down
+		  setRotation(rotation() - 90);
+	   	 } else if (!this->direction.compare("right")) {
+		   setRotation(rotation() + 90);
+		 } 
+		 this->direction = "down";
+	  } else if (event->key() == Qt::Key_Space) {
+		food * newfood = new food();
+		scene()->addItem(newfood);
+	  }
+  } else {
+  	/*QLabel *label = new QLabel(this);
+  	label->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+	label->setText("DEAD");
+	label->setAlignment(Qt::AlignBottom | Qt::AlignRight);*/
   }
 }
 
