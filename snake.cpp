@@ -2,6 +2,7 @@
 #include <QKeyEvent>
 #include <QGraphicsScene>
 #include "food.h"
+#include "field.h"
 #include <QTimer>
 #include <QTransform>
 #include <QLabel>
@@ -15,7 +16,7 @@ snake::snake() {
   // connect
   QTimer * timer = new QTimer();
   connect(timer,SIGNAL(timeout()),this,SLOT(move()));
-  timer->start(30);
+  timer->start(50);
 }
 
 snake::~snake() {}
@@ -82,8 +83,10 @@ void snake::move() {
       if (typeid(*(colliding_items[i])) == typeid(food)){
           // remove food
           scene()->removeItem(colliding_items[i]);
-          //colliding_item[i].count
           // delete food
+          this->score++;
+          this->food_count--;
+          this->setRect(0,0,5,(this->score)*10);
           delete colliding_items[i];
           return;
       }
@@ -92,12 +95,12 @@ void snake::move() {
     scene()->removeItem(this);
     delete this;
   } else if (!this->direction.compare("up")) { // if direction is up
-    setPos(x(), y()-1);
+    setPos(x(), y()-this->score);
   } else if (!this->direction.compare("down")) {
-    setPos(x(), y()+1);
+    setPos(x(), y()+this->score);
   } else if (!this->direction.compare("left")) {
-    setPos(x()-1,y());
+    setPos(x()-this->score,y());
   } else if (!this->direction.compare("right")) {
-    setPos(x()+1,y());
+    setPos(x()+this->score,y());
   }
 }
