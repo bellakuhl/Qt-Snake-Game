@@ -7,6 +7,7 @@
 #include <QLabel>
 #include <iostream>
 #include <string>
+#include <typeinfo>
 
 string prev_dir;
 
@@ -17,9 +18,7 @@ snake::snake() {
   timer->start(30);
 }
 
-snake::~snake() {
-
-}
+snake::~snake() {}
 
 void snake::keyPressEvent(QKeyEvent * event) {
   QRectF rect;
@@ -32,12 +31,12 @@ void snake::keyPressEvent(QKeyEvent * event) {
   t.translate(-center.x(), -center.y()); // rotate around item center
   if ((pos().x() + 5 < 700) && (pos().x() > 0) && (pos().x() + 5 < 700) && (pos().x() > 0)) {
 	  if (event->key() == Qt::Key_Left) {
-		
+
 		if (!this->direction.compare("up")) { // if snake is already going left, it is now moving down
 		  setRotation(rotation() - 90);
 		} else if (!this->direction.compare("down")) {
 		  setRotation(rotation() + 90);
-		} 
+		}
 		this->direction = "left";
 	  } else if (event->key() == Qt::Key_Right) {
 		  //setPos(x()+10, y());
@@ -45,16 +44,16 @@ void snake::keyPressEvent(QKeyEvent * event) {
 		  	setRotation(rotation() + 90);
 	   	  } else if (!this->direction.compare("down")) {
 		    setRotation(rotation() - 90);
-		  } 
+		  }
 		  this->direction = "right";
 	  } else if (event->key() == Qt::Key_Up) {
 		  //setPos(x(), y()-10);
-		  
+
 		  if (!this->direction.compare("left")) { // if snake is already going left, it is now moving down
 		  	setRotation(rotation() + 90);
 	   	  } else if (!this->direction.compare("right")) {
 		    setRotation(rotation() - 90);
-		  } 
+		  }
 		  this->direction = "up";
 	  } else if (event->key() == Qt::Key_Down) {
 		    //setPos(x(), y()+10);
@@ -62,7 +61,7 @@ void snake::keyPressEvent(QKeyEvent * event) {
 		  setRotation(rotation() - 90);
 	   	 } else if (!this->direction.compare("right")) {
 		   setRotation(rotation() + 90);
-		 } 
+		 }
 		 this->direction = "down";
 	  } else if (event->key() == Qt::Key_Space) {
 		food * newfood = new food();
@@ -77,7 +76,22 @@ void snake::keyPressEvent(QKeyEvent * event) {
 }
 
 void snake::move() {
-  if (!this->direction.compare("up")) { // if direction is up
+  // see if colliding
+  QList<QGraphicsItem *> colliding_items = collidingItems();
+  for (int i = 0, n = colliding_items.size(); i < n; ++i){
+      if (typeid(*(colliding_items[i])) == typeid(food)){
+          // remove food
+          scene()->removeItem(colliding_items[i]);
+          //colliding_item[i].count
+          // delete food
+          delete colliding_items[i];
+          return;
+      }
+  }
+  if (pos().y() + rect().height() < 0) {
+    scene()->removeItem(this);
+    delete this;
+  } else if (!this->direction.compare("up")) { // if direction is up
     setPos(x(), y()-1);
   } else if (!this->direction.compare("down")) {
     setPos(x(), y()+1);
