@@ -13,6 +13,10 @@ food::food(){
   setPos(xpos,ypos);
 }
 
-food::~food() {
+food::~food() {}
 
+void food::spawn() {
+  food * newFood = new food();
+
+  scene()->addItem(newFood);
 }
