@@ -15,7 +15,7 @@ public:
   string direction = "up";
   bool rotated = false;
   int score = 1;
-  int food_count = 0;
+  int foodEaten = 0;
   void keyPressEvent(QKeyEvent * event);
 public slots:
   void move();

@@ -9,6 +9,7 @@
 #include <iostream>
 #include <string>
 #include <typeinfo>
+#include <QDebug>
 
 string prev_dir;
 
@@ -85,7 +86,8 @@ void snake::move() {
           scene()->removeItem(colliding_items[i]);
           // delete food
           this->score++;
-          this->food_count--;
+          this->foodEaten++;
+          qDebug() << this->foodEaten;
           this->setRect(0,0,5,(this->score)*10);
           delete colliding_items[i];
           return;
