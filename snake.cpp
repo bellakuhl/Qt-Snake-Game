@@ -3,6 +3,7 @@
 #include <QGraphicsScene>
 #include "food.h"
 #include "field.h"
+#include "piece.h"
 #include <QTimer>
 #include <QTransform>
 #include <QLabel>
@@ -18,6 +19,7 @@ snake::snake() {
   QTimer * timer = new QTimer();
   connect(timer,SIGNAL(timeout()),this,SLOT(move()));
   timer->start(50);
+  piece * pieces = new piece[900];
 }
 
 snake::~snake() {}
@@ -65,10 +67,10 @@ void snake::keyPressEvent(QKeyEvent * event) {
 		   setRotation(rotation() + 90);
 		 }
 		 this->direction = "down";
-	  } else if (event->key() == Qt::Key_Space) {
+	  } /*else if (event->key() == Qt::Key_Space) { // food spawns when spacebar is pressed
 		food * newfood = new food();
 		scene()->addItem(newfood);
-	  }
+	  }*/
   } else {
   	/*QLabel *label = new QLabel(this);
   	label->setFrameStyle(QFrame::Panel | QFrame::Sunken);
@@ -87,9 +89,17 @@ void snake::move() {
           // delete food
           this->score++;
           this->foodEaten++;
-          qDebug() << this->foodEaten;
+<<<<<<< HEAD
+          //qDebug() << this->foodEaten;
           this->setRect(0,0,5,(this->score)*10);
+=======
+          qDebug() << this->foodEaten;
+          this->setRect(0,0,10,(this->score)*10);
+>>>>>>> 5198917ef8691f32a69968797a2286fd7956a63c
           delete colliding_items[i];
+          // food spawns when another is eaten
+          food * newfood = new food();
+		  scene()->addItem(newfood);
           return;
       }
   }
