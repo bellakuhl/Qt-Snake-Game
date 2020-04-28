@@ -8,6 +8,7 @@
 #include "field.h"
 #include "snake.h"
 #include "wall.h"
+#include "piece.h"
 #include <QDebug>
 #include <qmessagebox.h>
 #include <qmenubar.h>

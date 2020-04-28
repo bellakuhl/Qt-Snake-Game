@@ -13,6 +13,8 @@
 #include <QDebug>
 
 string prev_dir;
+int length = 0;
+piece * pieces[900];
 
 snake::snake() {
   this->direction = "up";
@@ -23,7 +25,6 @@ snake::snake() {
   QTimer * timer = new QTimer();
   QObject::connect(timer,SIGNAL(timeout()),this,SLOT(move()));
   timer->start(50);
-  piece * pieces = new piece[900];
 }
 
 snake::~snake() {}
@@ -94,13 +95,24 @@ void snake::move() {
           this->score++;
           this->foodEaten++;
           qDebug() << this->foodEaten;
-          this->setRect(0,0,10,(this->score)*10);
+          //this->setRect(0,0,10,(this->score)*10);
           delete colliding_items[i];
           // food spawns when another is eaten
           food * newfood = new food();
 		  scene()->addItem(newfood);
+		  length++;
+		  pieces[length] = new piece();
+		  pieces[length]->setRect(0,0,10,10);
+		  scene()->addItem(pieces[length]);
           return;
       }
+  }
+  for (int i = length; i > 0; i--) {
+  	if (i == 1) {
+  	  pieces[length]->setPos(x(), y());
+  	} else {
+  	  pieces[length]->setPos(pieces[length - 1]->x(), pieces[length - 1]->y());
+  	}
   }
   if (pos().y() + rect().height() < 0) {
     scene()->removeItem(this);
