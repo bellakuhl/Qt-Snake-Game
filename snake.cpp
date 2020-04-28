@@ -89,9 +89,8 @@ void snake::move() {
           // delete food
           this->score++;
           this->foodEaten++;
-<<<<<<< HEAD
-          //qDebug() << this->foodEaten;
-          this->setRect(0,0,5,(this->score)*10);
+          qDebug() << this->foodEaten;
+          this->setRect(0,0,10,(this->score)*10);
 =======
           qDebug() << this->foodEaten;
           this->setRect(0,0,10,(this->score)*10);
