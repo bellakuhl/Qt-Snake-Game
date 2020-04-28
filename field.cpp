@@ -11,17 +11,14 @@
 #include <QDebug>
 
 Field::Field() {
-  // spawn food randomly
-  /*QTimer * timer = new QTimer();
-  QObject::connect(timer,SIGNAL(timeout()),this,SLOT(updateFood()));
-  timer->start(2000);*/
+  food_count = 0;
 }
 
 Field::~Field() {}
 
 void Field::updateFood(int foodEaten) {
   //this->food_count = newSnake->food_count;
-  qDebug() << foodEaten;
+  //qDebug() << foodEaten;
   if (this->food_count - foodEaten < 3) { // only make new food if there are less than 3 on the screen
     food * newFood = new food();
     scene()->addItem(newFood);
