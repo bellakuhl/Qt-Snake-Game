@@ -15,9 +15,13 @@
 string prev_dir;
 
 snake::snake() {
-  // connect
+  this->direction = "up";
+  this->rotated = false;
+  this->score = 1;
+  this->foodEaten = 0;
+  // connect time to move
   QTimer * timer = new QTimer();
-  connect(timer,SIGNAL(timeout()),this,SLOT(move()));
+  QObject::connect(timer,SIGNAL(timeout()),this,SLOT(move()));
   timer->start(50);
   piece * pieces = new piece[900];
 }
@@ -91,10 +95,6 @@ void snake::move() {
           this->foodEaten++;
           qDebug() << this->foodEaten;
           this->setRect(0,0,10,(this->score)*10);
-=======
-          qDebug() << this->foodEaten;
-          this->setRect(0,0,10,(this->score)*10);
->>>>>>> 5198917ef8691f32a69968797a2286fd7956a63c
           delete colliding_items[i];
           // food spawns when another is eaten
           food * newfood = new food();

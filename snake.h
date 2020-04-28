@@ -13,10 +13,10 @@ class snake: public QObject, public QGraphicsRectItem {
 public:
   snake();
   ~snake();
-  string direction = "up";
-  bool rotated = false;
-  int score = 1;
-  int foodEaten = 0;
+  string direction;
+  bool rotated;
+  int score;
+  int foodEaten;
   void keyPressEvent(QKeyEvent * event);
 public slots:
   void move();
