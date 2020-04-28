@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
     // create rect item to put in scene
     snake * newSnake = new snake();
     Field * field = new Field();
-    newSnake->setRect(0,0,5,10);
+    newSnake->setRect(0,0,10,10);
     scene->addItem(newSnake);
     scene->addItem(field);
 
