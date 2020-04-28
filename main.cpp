@@ -9,6 +9,11 @@
 #include "snake.h"
 #include "wall.h"
 #include <QDebug>
+#include <qmessagebox.h>
+#include <qmenubar.h>
+#include <QIcon>
+
+void displayWelcome();
 
 int main(int argc, char *argv[])
 {
@@ -45,6 +50,13 @@ int main(int argc, char *argv[])
     view->setFixedSize(700, 700);
     view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    /*QPixmap bg(600, 600);
+    QPainter p(&bg);
+    p.setBrush(QBrush(Qt::gray));
+    p.drawRect(0, 0, 600, 600);*/
+
+    //view->setBackgroundBrush(QBrush(bg));
+    displayWelcome();
     view->show();
 
     QSignalMapper* signalMapper = new QSignalMapper (field) ;
@@ -55,4 +67,24 @@ int main(int argc, char *argv[])
     timer->start(2000);
 
     return app.exec();
+}
+
+void displayWelcome() {
+
+  // Display welcome message
+  QMessageBox msgBox;
+  msgBox.setText("Welcome to Qt Snake");
+  msgBox.setInformativeText("Would you like to play?");
+  msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+  msgBox.setDefaultButton(QMessageBox::Yes);
+  int ret = msgBox.exec();
+
+  switch (ret) {
+  case QMessageBox::Yes:
+      break;
+  case QMessageBox::No:
+      QMessageBox msgBox1;
+      msgBox1.setText("Too bad");
+      break;
+  }
 }
