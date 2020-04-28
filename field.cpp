@@ -8,25 +8,28 @@
 #include "snake.h"
 #include "field.h"
 #include "food.h"
+#include <QDebug>
 
 Field::Field() {
   // spawn food randomly
-  QTimer * timer = new QTimer();
-  QObject::connect(timer,SIGNAL(timeout()),this,SLOT(spawn()));
-  timer->start(2000);
+  /*QTimer * timer = new QTimer();
+  QObject::connect(timer,SIGNAL(timeout()),this,SLOT(updateFood()));
+  timer->start(2000);*/
 }
 
 Field::~Field() {}
 
-void Field::spawn() {
+void Field::updateFood(int foodEaten) {
   //this->food_count = newSnake->food_count;
-  if (this->food_count < 3) { // only make new food if there are less than 3 on the screen
+  qDebug() << foodEaten;
+  if (this->food_count - foodEaten < 3) { // only make new food if there are less than 3 on the screen
     food * newFood = new food();
     scene()->addItem(newFood);
     this->food_count++;
   }
 }
 
-void Field::updateFood(int newCount) {
+/*void Field::updateFood(int newCount) {
+  if ()
   this->food_count = newCount;
-}
+}*/

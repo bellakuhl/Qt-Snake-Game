@@ -12,13 +12,9 @@ public:
   Field();
   ~Field();
   int food_count = 0;
-  //snake * newSnake;
-  /*Wall * top;
-  Wall * left;
-  Wall * right;
-  Wall * bottom;*/
+
 public slots:
-    void spawn();
+    //void spawn(int foodEaten);
     void updateFood(int newCount);
 };
 
