@@ -12,6 +12,7 @@
 #include <qmessagebox.h>
 #include <qmenubar.h>
 #include <QIcon>
+#include <QPushButton>
 
 void displayWelcome();
 
@@ -19,6 +20,7 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
     QGraphicsScene * scene = new QGraphicsScene();
+    displayWelcome();
     // create rect item to put in scene
     snake * newSnake = new snake();
     Field * field = new Field();
@@ -41,6 +43,8 @@ int main(int argc, char *argv[])
 
     // make scene a 700x700 square
     scene->setSceneRect(0,0,700,700);
+    //scene->setPos(350,350);
+
     // make rect focusable
     newSnake->setFlag(QGraphicsItem::ItemIsFocusable);
     newSnake->setFocus();
@@ -54,11 +58,25 @@ int main(int argc, char *argv[])
     QPainter p(&bg);
     p.setBrush(QBrush(Qt::gray));
     p.drawRect(0, 0, 700, 700);
-
     view->setBackgroundBrush(QBrush(bg));
-    displayWelcome();
-    view->show();
 
+    view->setScene(scene);
+
+    /*QMessageBox msgBox;
+    msgBox.setText("Welcome to Qt Snake");
+    msgBox.setInformativeText("Would you like to play?");
+    QPushButton *connectButton = msgBox.addButton("YES!", QMessageBox::ActionRole);
+    QPushButton *abortButton = msgBox.addButton("Nah", QMessageBox::ActionRole);
+    msgBox.exec();*/
+
+    /* if (msgBox.clickedButton() == connectButton) {
+       // play
+       view->show();
+    } else if (msgBox.clickedButton() == abortButton) {
+      view->hide();
+    }*/
+    //displayWelcome();
+    view->show();
     QSignalMapper* signalMapper = new QSignalMapper (field) ;
     QTimer * timer = new QTimer();
     QObject::connect (timer, SIGNAL(timeout()), signalMapper, SLOT(map()));
@@ -72,7 +90,7 @@ int main(int argc, char *argv[])
 void displayWelcome() {
 
   // Display welcome message
-  QMessageBox msgBox;
+  /*QMessageBox msgBox;
   msgBox.setText("Welcome to Qt Snake");
   msgBox.setInformativeText("Would you like to play?");
   msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::Yes);
@@ -82,5 +100,32 @@ void displayWelcome() {
   switch (ret) {
   case QMessageBox::Yes:
       break;
+  }*/
+  QMessageBox msgBox;
+  msgBox.setText("Welcome to Qt Snake");
+  msgBox.setInformativeText("Would you like to play?");
+  QPushButton *connectButton = msgBox.addButton("YES!", QMessageBox::ActionRole);
+  QPushButton *abortButton = msgBox.addButton("Nah", QMessageBox::ActionRole);
+
+  msgBox.exec();
+
+  if (msgBox.clickedButton() == connectButton) {
+      // play
+      return;
+  } else if (msgBox.clickedButton() == abortButton) {
+    QMessageBox msgBox1;
+    here:
+    msgBox1.setText("Are you sure?");
+    msgBox1.setInformativeText("It's really fun!");
+    msgBox1.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+    msgBox1.setDefaultButton(QMessageBox::No);
+    int ret = msgBox1.exec();
+    switch (ret) {
+    case QMessageBox::No:
+        break;
+    case QMessageBox::Yes:
+        goto here;
+    }
   }
+  return;
 }
