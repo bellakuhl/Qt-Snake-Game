@@ -11,6 +11,7 @@
 #include <string>
 #include <typeinfo>
 #include <QDebug>
+#include <qmessagebox.h>
 
 string prev_dir;
 
@@ -93,19 +94,24 @@ void snake::move() {
           // delete food
           this->score++;
           this->foodEaten++;
-          qDebug() << this->foodEaten;
+          //qDebug() << this->foodEaten;
           this->setRect(0,0,10,(this->score)*10);
           delete colliding_items[i];
           // food spawns when another is eaten
           food * newfood = new food();
-		  scene()->addItem(newfood);
+		      scene()->addItem(newfood);
           return;
+      } else if (typeid(*(colliding_items[i])) == typeid(Wall)) {
+        QMessageBox msgBox;
+        msgBox.setText("Game Over");
+        msgBox.exec();
+        scene()->clear();
       }
   }
-  if (pos().y() + rect().height() < 0) {
+  /*if (pos().y() + rect().height() < 0) {
     scene()->removeItem(this);
     delete this;
-  } else if (!this->direction.compare("up")) { // if direction is up
+  } else*/ if (!this->direction.compare("up")) { // if direction is up
     setPos(x(), y()-this->score);
   } else if (!this->direction.compare("down")) {
     setPos(x(), y()+this->score);
