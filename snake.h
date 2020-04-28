@@ -3,6 +3,7 @@
 
 #include <QGraphicsRectItem>
 #include <QObject>
+#include "piece.h"
 #include <iostream>
 #include <string>
 using namespace std;
