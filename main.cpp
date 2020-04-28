@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
     // create rect item to put in scene
     snake * newSnake = new snake();
     Field * field = new Field();
-    newSnake->setRect(0,0,5,10);
+    newSnake->setRect(0,0,10,10);
     scene->addItem(newSnake);
     scene->addItem(field);
 
@@ -50,12 +50,12 @@ int main(int argc, char *argv[])
     view->setFixedSize(700, 700);
     view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    /*QPixmap bg(600, 600);
+    QPixmap bg(700, 700);
     QPainter p(&bg);
     p.setBrush(QBrush(Qt::gray));
-    p.drawRect(0, 0, 600, 600);*/
+    p.drawRect(0, 0, 700, 700);
 
-    //view->setBackgroundBrush(QBrush(bg));
+    view->setBackgroundBrush(QBrush(bg));
     displayWelcome();
     view->show();
 
@@ -75,16 +75,12 @@ void displayWelcome() {
   QMessageBox msgBox;
   msgBox.setText("Welcome to Qt Snake");
   msgBox.setInformativeText("Would you like to play?");
-  msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+  msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::Yes);
   msgBox.setDefaultButton(QMessageBox::Yes);
   int ret = msgBox.exec();
 
   switch (ret) {
   case QMessageBox::Yes:
-      break;
-  case QMessageBox::No:
-      QMessageBox msgBox1;
-      msgBox1.setText("Too bad");
       break;
   }
 }
