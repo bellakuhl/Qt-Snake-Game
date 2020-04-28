@@ -2,14 +2,11 @@
 #define FOOD_H
 
 #include <QGraphicsRectItem>
-#include <QObject>
 
-class food: public QObject, public QGraphicsRectItem {
-  Q_OBJECT // required Qobject macro
+class food: public QGraphicsRectItem {
 public:
   food();
   ~food();
-  int count = 0;
 };
 
 #endif

@@ -1,9 +1,7 @@
 #include "food.h"
-#include "field.h"
 #include <QApplication>
 #include <QGraphicsScene>
 #include <QGraphicsView>
-#include <QTimer>
 #include <QList>
 #include <iostream>
 
