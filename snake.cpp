@@ -90,12 +90,6 @@ void snake::move() {
           // delete food
           this->score++;
           this->foodEaten++;
-          //qDebug() << this->foodEaten;
-          this->setRect(0,0,10,(this->score)*10);
-          delete colliding_items[i];
-          // food spawns when another is eaten
-          food * newfood = new food();
-		      scene()->addItem(newfood);
           return;
       } else if (typeid(*(colliding_items[i])) == typeid(Wall)) {
         QMessageBox msgBox;
