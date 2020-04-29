@@ -21,7 +21,7 @@ snake::snake() {
   this->direction = "up";
   this->rotated = false;
   this->score = 1;
-  this->foodEaten = 0;
+  this->speed = 2;
   // connect time to move
   QTimer * timer = new QTimer();
   QObject::connect(timer,SIGNAL(timeout()),this,SLOT(move()));
@@ -31,46 +31,14 @@ snake::snake() {
 snake::~snake() {}
 
 void snake::keyPressEvent(QKeyEvent * event) {
-  QRectF rect;
-  foreach(QGraphicsItem* item, scene()->selectedItems()) {
-    rect |= item->mapToScene(item->boundingRect()).boundingRect();
-  }
-  QPointF center = rect.center();
-  QTransform t;
-  t.rotate(90); // rotate 90 degrees
-  t.translate(-center.x(), -center.y()); // rotate around item center
   if ((pos().x() + 5 < 700) && (pos().x() > 0) && (pos().x() + 5 < 700) && (pos().x() > 0)) {
 	  if (event->key() == Qt::Key_Left && this->direction.compare("right")) {
-  		if (!this->direction.compare("up")) { // if snake is already going up, it is now moving left
-  		  setRotation(rotation() - 90);
-  		} else if (!this->direction.compare("down")) {
-  		  setRotation(rotation() + 90);
-  		}
   		this->direction = "left";
 	  } else if (event->key() == Qt::Key_Right && this->direction.compare("left")) {
-  		  //setPos(x()+10, y());
-  		  if (!this->direction.compare("up")) { // if snake is already going up, it is now moving right
-  		  	setRotation(rotation() + 90);
-  	   	  } else if (!this->direction.compare("down")) {
-  		    setRotation(rotation() - 90);
-  		  }
   		  this->direction = "right";
 	  } else if (event->key() == Qt::Key_Up && this->direction.compare("down")) {
-		  //setPos(x(), y()-10);
-
-		  if (!this->direction.compare("left")) { // if snake is already going left, it is now moving up
-  		  	setRotation(rotation() + 90);
-  	   	  } else if (!this->direction.compare("right")) {
-  		    setRotation(rotation() - 90);
-  		  }
   		  this->direction = "up";
 	  } else if (event->key() == Qt::Key_Down && this->direction.compare("up")) {
-  		    //setPos(x(), y()+10);
-  		 if (!this->direction.compare("left")) { // if snake is already going left, it is now moving down
-  		  setRotation(rotation() - 90);
-  	   	 } else if (!this->direction.compare("right")) {
-  		   setRotation(rotation() + 90);
-  		 }
   		 this->direction = "down";
 	  }
   } else {
@@ -90,27 +58,16 @@ void snake::move() {
           scene()->removeItem(colliding_items[i]);
           // delete food
           this->score++;
-          this->foodEaten++;
-          qDebug() << this->foodEaten;
-          //this->setRect(0,0,10,(this->score)*10);
           delete colliding_items[i];
           // food spawns when another is eaten
           food * newfood = new food();
     		  scene()->addItem(newfood);
     		  length++;
-    		  /*pieces[length] = new piece();
+          speed += this->score%2;
+    		  pieces[length] = new piece();
     		  pieces[length]->setRect(0,0,10,10);
           pieces[length]->setPos(x(),y());
-    		  scene()->addItem(pieces[length]);*/
-          if (!this->direction.compare("up")) { // if direction is up
-            moveUp();
-          } else if (!this->direction.compare("down")) {
-            moveDown();
-          } else if (!this->direction.compare("left")) {
-            moveLeft();
-          } else if (!this->direction.compare("right")) {
-            moveRight();
-          }
+    		  scene()->addItem(pieces[length]);
           return;
       } else if (typeid(*(colliding_items[i])) == typeid(Wall)) {
         QMessageBox msgBox;
@@ -120,51 +77,35 @@ void snake::move() {
       }
   }
   if (!this->direction.compare("up")) { // if direction is up
-    setPos(x(), y()-this->score);
+    setPos(x(), y()-speed);
   } else if (!this->direction.compare("down")) {
-    setPos(x(), y()+this->score);
+    setPos(x(), y()+speed);
   } else if (!this->direction.compare("left")) {
-    setPos(x()-this->score,y());
+    setPos(x()-speed,y());
   } else if (!this->direction.compare("right")) {
-    setPos(x()+this->score,y());
+    setPos(x()+speed,y());
   }
   for (int i = length; i > 0; i--) {
     if (i == 1) {
-      pieces[i]->setPos(x(), y());
+      if (!this->direction.compare("up")) { // if direction is up
+        pieces[i]->setPos(x(), y()+10);
+      } else if (!this->direction.compare("down")) {
+        pieces[i]->setPos(x(), y()-10);
+      } else if (!this->direction.compare("left")) {
+        pieces[i]->setPos(x()+10, y());
+      } else if (!this->direction.compare("right")) {
+        pieces[i]->setPos(x()-10, y());
+      }
     } else {
-      pieces[i]->setPos(pieces[i - 1]->x(), pieces[i - 1]->y());
+      if (!this->direction.compare("up")) { // if direction is up
+        pieces[i]->setPos(pieces[i - 1]->x(), pieces[i - 1]->y()+10); // use previous pieces position offset by size of piece (10)
+      } else if (!this->direction.compare("down")) {
+        pieces[i]->setPos(pieces[i - 1]->x(), pieces[i - 1]->y()-10);
+      } else if (!this->direction.compare("left")) {
+        pieces[i]->setPos(pieces[i - 1]->x()+10, pieces[i - 1]->y());
+      } else if (!this->direction.compare("right")) {
+        pieces[i]->setPos(pieces[i - 1]->x()-10, pieces[i - 1]->y());
+      }
     }
   }
-}
-
-void snake::moveLeft() {
-  pieces[length] = new piece();
-  pieces[length]->setRect(0,0,10,10);
-  pieces[length]->setPos(x()+(length*10),y());
-  scene()->addItem(pieces[length]);
-  return;
-}
-
-void snake::moveRight() {
-  pieces[length] = new piece();
-  pieces[length]->setRect(0,0,10,10);
-  pieces[length]->setPos(x()-(length*10),y());
-  scene()->addItem(pieces[length]);
-  return;
-}
-
-void snake::moveUp() {
-  pieces[length] = new piece();
-  pieces[length]->setRect(0,0,10,10);
-  pieces[length]->setPos(x(),y()-(length*10));
-  scene()->addItem(pieces[length]);
-  return;
-}
-
-void snake::moveDown() {
-  pieces[length] = new piece();
-  pieces[length]->setRect(0,0,10,10);
-  pieces[length]->setPos(x(),y()+(length*10));
-  scene()->addItem(pieces[length]);
-  return;
 }

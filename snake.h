@@ -16,12 +16,8 @@ public:
   string direction;
   bool rotated;
   int score;
-  int foodEaten;
+  int speed;
   void keyPressEvent(QKeyEvent * event);
-  void moveLeft();
-  void moveRight();
-  void moveUp();
-  void moveDown();
 public slots:
   void move();
 };
