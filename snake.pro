@@ -1,5 +1,5 @@
-SOURCES = main.cpp food.cpp snake.cpp field.cpp wall.cpp piece.cpp
-HEADERS += food.h snake.h field.h wall.h piece.h
+SOURCES = main.cpp food.cpp snake.cpp field.cpp wall.cpp piece.cpp Game.cpp
+HEADERS += food.h snake.h field.h wall.h piece.h Game.h
 sources.files = $$SOURCES $$HEADERS $$RESOURCES *.pro
 sources.path = $$EC535/lab5/snake/main
 INSTALLS += sources
