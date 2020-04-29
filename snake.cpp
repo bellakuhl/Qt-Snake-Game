@@ -11,6 +11,7 @@
 #include <string>
 #include <typeinfo>
 #include <QDebug>
+#include <qmessagebox.h>
 
 string prev_dir;
 int length = 0;
@@ -39,43 +40,39 @@ void snake::keyPressEvent(QKeyEvent * event) {
   t.rotate(90); // rotate 90 degrees
   t.translate(-center.x(), -center.y()); // rotate around item center
   if ((pos().x() + 5 < 700) && (pos().x() > 0) && (pos().x() + 5 < 700) && (pos().x() > 0)) {
-	  if (event->key() == Qt::Key_Left) {
-
-		if (!this->direction.compare("up")) { // if snake is already going left, it is now moving down
-		  setRotation(rotation() - 90);
-		} else if (!this->direction.compare("down")) {
-		  setRotation(rotation() + 90);
-		}
-		this->direction = "left";
-	  } else if (event->key() == Qt::Key_Right) {
-		  //setPos(x()+10, y());
-		  if (!this->direction.compare("up")) { // if snake is already going left, it is now moving down
-		  	setRotation(rotation() + 90);
-	   	  } else if (!this->direction.compare("down")) {
-		    setRotation(rotation() - 90);
-		  }
-		  this->direction = "right";
-	  } else if (event->key() == Qt::Key_Up) {
+	  if (event->key() == Qt::Key_Left && this->direction.compare("right")) {
+  		if (!this->direction.compare("up")) { // if snake is already going up, it is now moving left
+  		  setRotation(rotation() - 90);
+  		} else if (!this->direction.compare("down")) {
+  		  setRotation(rotation() + 90);
+  		}
+  		this->direction = "left";
+	  } else if (event->key() == Qt::Key_Right && this->direction.compare("left")) {
+  		  //setPos(x()+10, y());
+  		  if (!this->direction.compare("up")) { // if snake is already going up, it is now moving right
+  		  	setRotation(rotation() + 90);
+  	   	  } else if (!this->direction.compare("down")) {
+  		    setRotation(rotation() - 90);
+  		  }
+  		  this->direction = "right";
+	  } else if (event->key() == Qt::Key_Up && this->direction.compare("down")) {
 		  //setPos(x(), y()-10);
 
-		  if (!this->direction.compare("left")) { // if snake is already going left, it is now moving down
-		  	setRotation(rotation() + 90);
-	   	  } else if (!this->direction.compare("right")) {
-		    setRotation(rotation() - 90);
-		  }
-		  this->direction = "up";
-	  } else if (event->key() == Qt::Key_Down) {
-		    //setPos(x(), y()+10);
-		 if (!this->direction.compare("left")) { // if snake is already going left, it is now moving down
-		  setRotation(rotation() - 90);
-	   	 } else if (!this->direction.compare("right")) {
-		   setRotation(rotation() + 90);
-		 }
-		 this->direction = "down";
-	  } /*else if (event->key() == Qt::Key_Space) { // food spawns when spacebar is pressed
-		food * newfood = new food();
-		scene()->addItem(newfood);
-	  }*/
+		  if (!this->direction.compare("left")) { // if snake is already going left, it is now moving up
+  		  	setRotation(rotation() + 90);
+  	   	  } else if (!this->direction.compare("right")) {
+  		    setRotation(rotation() - 90);
+  		  }
+  		  this->direction = "up";
+	  } else if (event->key() == Qt::Key_Down && this->direction.compare("up")) {
+  		    //setPos(x(), y()+10);
+  		 if (!this->direction.compare("left")) { // if snake is already going left, it is now moving down
+  		  setRotation(rotation() - 90);
+  	   	 } else if (!this->direction.compare("right")) {
+  		   setRotation(rotation() + 90);
+  		 }
+  		 this->direction = "down";
+	  }
   } else {
   	/*QLabel *label = new QLabel(this);
   	label->setFrameStyle(QFrame::Panel | QFrame::Sunken);
@@ -105,6 +102,11 @@ void snake::move() {
     		  pieces[length]->setRect(0,0,10,10);
     		  scene()->addItem(pieces[length]);
           return;
+      } else if (typeid(*(colliding_items[i])) == typeid(Wall)) {
+        QMessageBox msgBox;
+        msgBox.setText("Game Over");
+        msgBox.exec();
+        scene()->clear();
       }
   }
   for (int i = length; i > 0; i--) {
