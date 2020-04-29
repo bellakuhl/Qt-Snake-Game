@@ -16,16 +16,17 @@
 string prev_dir;
 int length = 0;
 piece * pieces[900];
+int size = 30;
 
 snake::snake() {
   this->direction = "up";
   this->rotated = false;
   this->score = 1;
-  this->speed = 2;
+  this->speed = 1 * size;
   // connect time to move
   QTimer * timer = new QTimer();
   QObject::connect(timer,SIGNAL(timeout()),this,SLOT(move()));
-  timer->start(50);
+  timer->start(200);
 }
 
 snake::~snake() {}
@@ -65,7 +66,7 @@ void snake::move() {
     		  length++;
           speed += this->score%2;
     		  pieces[length] = new piece();
-    		  pieces[length]->setRect(0,0,10,10);
+    		  pieces[length]->setRect(0,0,size,size);
           pieces[length]->setPos(x(),y());
     		  scene()->addItem(pieces[length]);
           return;
@@ -76,6 +77,15 @@ void snake::move() {
         scene()->clear();
       }
   }
+  for (int i = length; i > 0; i--) {
+    if (i == 1) {
+      // first segment of snake follows the head
+      pieces[i]->setPos(x(), y());
+    } else {
+      // all other segments follow the segment in front
+      pieces[i]->setPos(pieces[i - 1]->x(), pieces[i - 1]->y());
+    }
+  }
   if (!this->direction.compare("up")) { // if direction is up
     setPos(x(), y()-speed);
   } else if (!this->direction.compare("down")) {
@@ -85,27 +95,5 @@ void snake::move() {
   } else if (!this->direction.compare("right")) {
     setPos(x()+speed,y());
   }
-  for (int i = length; i > 0; i--) {
-    if (i == 1) {
-      if (!this->direction.compare("up")) { // if direction is up
-        pieces[i]->setPos(x(), y()+10);
-      } else if (!this->direction.compare("down")) {
-        pieces[i]->setPos(x(), y()-10);
-      } else if (!this->direction.compare("left")) {
-        pieces[i]->setPos(x()+10, y());
-      } else if (!this->direction.compare("right")) {
-        pieces[i]->setPos(x()-10, y());
-      }
-    } else {
-      if (!this->direction.compare("up")) { // if direction is up
-        pieces[i]->setPos(pieces[i - 1]->x(), pieces[i - 1]->y()+10); // use previous pieces position offset by size of piece (10)
-      } else if (!this->direction.compare("down")) {
-        pieces[i]->setPos(pieces[i - 1]->x(), pieces[i - 1]->y()-10);
-      } else if (!this->direction.compare("left")) {
-        pieces[i]->setPos(pieces[i - 1]->x()+10, pieces[i - 1]->y());
-      } else if (!this->direction.compare("right")) {
-        pieces[i]->setPos(pieces[i - 1]->x()-10, pieces[i - 1]->y());
-      }
-    }
-  }
+  
 }

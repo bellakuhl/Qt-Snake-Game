@@ -11,7 +11,7 @@ food::food(){
   int xpos, ypos;
   xpos = (int)(qrand() % 600);
   ypos = (int)(qrand() % 600);
-  setRect(0,0,5,5);
+  setRect(0,0,30,30);
   setPos(xpos,ypos);
 }
 

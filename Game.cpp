@@ -23,7 +23,7 @@ Game::Game(QWidget *parent){
 
     // create the snake
     newSnake = new snake();
-    newSnake->setRect(0,0,10,10); // change the rect from 0x0 (default) to 10x10 pixels
+    newSnake->setRect(0,0,30,30); // change the rect from 0x0 (default) to 10x10 pixels
     newSnake->setPos(350,350); // start in the middle bottom of screen
     // make the player focusable and set it to be the current focus
     newSnake->setFlag(QGraphicsItem::ItemIsFocusable);
