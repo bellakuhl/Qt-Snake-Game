@@ -1,14 +1,16 @@
 #include "piece.h"
-#include <QKeyEvent>
+#include <QApplication>
 #include <QGraphicsScene>
-#include "snake.h"
+#include <QGraphicsView>
 #include <QTimer>
-#include <QTransform>
-#include <QLabel>
+#include <QList>
 #include <iostream>
-#include <QDebug>
+#include "Game.h"
 
-piece::piece() {
+extern Game * game;
+
+piece::piece(QGraphicsItem *parent): QObject(), QGraphicsPixmapItem(parent){
+  setPixmap(QPixmap(":/resources/images/mask.png"));
 }
 
 piece::~piece() {}
