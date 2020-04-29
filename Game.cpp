@@ -11,6 +11,7 @@
 Game::Game(QWidget *parent){
     // create the scene
     scene = new QGraphicsScene();
+    displayWelcome();
     scene->setSceneRect(0,0,700,700); // make the scene 800x600 instead of infinity by infinity (default)
 
     // make the newly created scene the scene to visualize (since Game is a QGraphicsView Widget,
@@ -48,7 +49,6 @@ Game::Game(QWidget *parent){
       food * newFood = new food();
       scene->addItem(newFood);
     }
-    displayWelcome();
     show();
 }
 
