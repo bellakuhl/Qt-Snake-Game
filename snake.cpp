@@ -98,9 +98,19 @@ void snake::move() {
           food * newfood = new food();
     		  scene()->addItem(newfood);
     		  length++;
-    		  pieces[length] = new piece();
+    		  /*pieces[length] = new piece();
     		  pieces[length]->setRect(0,0,10,10);
-    		  scene()->addItem(pieces[length]);
+          pieces[length]->setPos(x(),y());
+    		  scene()->addItem(pieces[length]);*/
+          if (!this->direction.compare("up")) { // if direction is up
+            moveUp();
+          } else if (!this->direction.compare("down")) {
+            moveDown();
+          } else if (!this->direction.compare("left")) {
+            moveLeft();
+          } else if (!this->direction.compare("right")) {
+            moveRight();
+          }
           return;
       } else if (typeid(*(colliding_items[i])) == typeid(Wall)) {
         QMessageBox msgBox;
@@ -108,13 +118,6 @@ void snake::move() {
         msgBox.exec();
         scene()->clear();
       }
-  }
-  for (int i = length; i > 0; i--) {
-  	if (i == 1) {
-  	  pieces[length]->setPos(x(), y());
-  	} else {
-  	  pieces[length]->setPos(pieces[length - 1]->x(), pieces[length - 1]->y());
-  	}
   }
   if (!this->direction.compare("up")) { // if direction is up
     setPos(x(), y()-this->score);
@@ -125,4 +128,43 @@ void snake::move() {
   } else if (!this->direction.compare("right")) {
     setPos(x()+this->score,y());
   }
+  for (int i = length; i > 0; i--) {
+    if (i == 1) {
+      pieces[i]->setPos(x(), y());
+    } else {
+      pieces[i]->setPos(pieces[i - 1]->x(), pieces[i - 1]->y());
+    }
+  }
+}
+
+void snake::moveLeft() {
+  pieces[length] = new piece();
+  pieces[length]->setRect(0,0,10,10);
+  pieces[length]->setPos(x()+(length*10),y());
+  scene()->addItem(pieces[length]);
+  return;
+}
+
+void snake::moveRight() {
+  pieces[length] = new piece();
+  pieces[length]->setRect(0,0,10,10);
+  pieces[length]->setPos(x()-(length*10),y());
+  scene()->addItem(pieces[length]);
+  return;
+}
+
+void snake::moveUp() {
+  pieces[length] = new piece();
+  pieces[length]->setRect(0,0,10,10);
+  pieces[length]->setPos(x(),y()-(length*10));
+  scene()->addItem(pieces[length]);
+  return;
+}
+
+void snake::moveDown() {
+  pieces[length] = new piece();
+  pieces[length]->setRect(0,0,10,10);
+  pieces[length]->setPos(x(),y()+(length*10));
+  scene()->addItem(pieces[length]);
+  return;
 }
