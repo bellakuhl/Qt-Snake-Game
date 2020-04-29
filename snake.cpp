@@ -99,11 +99,11 @@ void snake::move() {
           delete colliding_items[i];
           // food spawns when another is eaten
           food * newfood = new food();
-		  scene()->addItem(newfood);
-		  length++;
-		  pieces[length] = new piece();
-		  pieces[length]->setRect(0,0,10,10);
-		  scene()->addItem(pieces[length]);
+    		  scene()->addItem(newfood);
+    		  length++;
+    		  pieces[length] = new piece();
+    		  pieces[length]->setRect(0,0,10,10);
+    		  scene()->addItem(pieces[length]);
           return;
       }
   }
@@ -114,10 +114,7 @@ void snake::move() {
   	  pieces[length]->setPos(pieces[length - 1]->x(), pieces[length - 1]->y());
   	}
   }
-  if (pos().y() + rect().height() < 0) {
-    scene()->removeItem(this);
-    delete this;
-  } else if (!this->direction.compare("up")) { // if direction is up
+  if (!this->direction.compare("up")) { // if direction is up
     setPos(x(), y()-this->score);
   } else if (!this->direction.compare("down")) {
     setPos(x(), y()+this->score);
