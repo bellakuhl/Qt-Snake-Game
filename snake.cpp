@@ -75,7 +75,7 @@ void snake::move() {
         msgBox.setText("Game Over");
         msgBox.exec();
         scene()->clear();
-      }
+      } 
   }
   for (int i = length; i > 0; i--) {
     if (i == 1) {
@@ -94,6 +94,14 @@ void snake::move() {
     setPos(x()-speed,y());
   } else if (!this->direction.compare("right")) {
     setPos(x()+speed,y());
+  }
+  for (int i = length; i > 2; i--) {
+        if (x() == pieces[i]->x() && y() == pieces[i]->y()) {
+          QMessageBox msgBox;
+          msgBox.setText("Game Over");
+          msgBox.exec();
+          scene()->clear();
+        }
   }
   
 }
