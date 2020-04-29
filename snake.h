@@ -2,19 +2,19 @@
 #define SNAKE_H
 
 #include <QGraphicsRectItem>
+#include <QGraphicsPixmapItem>
 #include <QObject>
 #include "piece.h"
 #include <iostream>
 #include <string>
 using namespace std;
 
-class snake: public QObject, public QGraphicsRectItem {
+class snake: public QObject, public QGraphicsPixmapItem{
   Q_OBJECT // required Qobject macro
 public:
-  snake();
+  snake(QGraphicsItem * parent=0);
   ~snake();
   string direction;
-  bool rotated;
   int score;
   int speed;
   void keyPressEvent(QKeyEvent * event);

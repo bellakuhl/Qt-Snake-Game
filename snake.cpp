@@ -17,9 +17,9 @@ string prev_dir;
 int length = 0;
 piece * pieces[900];
 
-snake::snake() {
+snake::snake(QGraphicsItem *parent): QGraphicsPixmapItem(parent){
+  setPixmap(QPixmap(":/resources/images/mask.png"));
   this->direction = "up";
-  this->rotated = false;
   this->score = 1;
   this->speed = 2;
   // connect time to move
@@ -65,7 +65,7 @@ void snake::move() {
     		  length++;
           speed += this->score%2;
     		  pieces[length] = new piece();
-    		  pieces[length]->setRect(0,0,10,10);
+    		  //pieces[length]->setRect(0,0,10,10);
           pieces[length]->setPos(x(),y());
     		  scene()->addItem(pieces[length]);
           return;
@@ -88,23 +88,23 @@ void snake::move() {
   for (int i = length; i > 0; i--) {
     if (i == 1) {
       if (!this->direction.compare("up")) { // if direction is up
-        pieces[i]->setPos(x(), y()+10);
+        pieces[i]->setPos(x(), y()+45);
       } else if (!this->direction.compare("down")) {
-        pieces[i]->setPos(x(), y()-10);
+        pieces[i]->setPos(x(), y()-45);
       } else if (!this->direction.compare("left")) {
-        pieces[i]->setPos(x()+10, y());
+        pieces[i]->setPos(x()+45, y());
       } else if (!this->direction.compare("right")) {
-        pieces[i]->setPos(x()-10, y());
+        pieces[i]->setPos(x()-45, y());
       }
     } else {
       if (!this->direction.compare("up")) { // if direction is up
-        pieces[i]->setPos(pieces[i - 1]->x(), pieces[i - 1]->y()+10); // use previous pieces position offset by size of piece (10)
+        pieces[i]->setPos(pieces[i - 1]->x(), pieces[i - 1]->y()+45); // use previous pieces position offset by size of piece (45)
       } else if (!this->direction.compare("down")) {
-        pieces[i]->setPos(pieces[i - 1]->x(), pieces[i - 1]->y()-10);
+        pieces[i]->setPos(pieces[i - 1]->x(), pieces[i - 1]->y()-45);
       } else if (!this->direction.compare("left")) {
-        pieces[i]->setPos(pieces[i - 1]->x()+10, pieces[i - 1]->y());
+        pieces[i]->setPos(pieces[i - 1]->x()+45, pieces[i - 1]->y());
       } else if (!this->direction.compare("right")) {
-        pieces[i]->setPos(pieces[i - 1]->x()-10, pieces[i - 1]->y());
+        pieces[i]->setPos(pieces[i - 1]->x()-45, pieces[i - 1]->y());
       }
     }
   }
