@@ -4,6 +4,7 @@
 #include <qmessagebox.h>
 #include <QIcon>
 #include <QPushButton>
+#include <QImage>
 #include <QFont>
 #include "snake.h"
 #include "wall.h"
@@ -11,25 +12,17 @@
 Game::Game(QWidget *parent){
     // create the scene
     scene = new QGraphicsScene();
+    QGraphicsView * view = new QGraphicsView(scene);
     displayWelcome();
-    scene->setSceneRect(0,0,700,700); // make the scene 800x600 instead of infinity by infinity (default)
+    scene->setSceneRect(0,0,1000,725); // make the scene 800x600 instead of infinity by infinity (default)
+    setBackgroundBrush(QBrush(QImage(":/resources/images/world.jpg")));
 
     // make the newly created scene the scene to visualize (since Game is a QGraphicsView Widget,
     // it can be used to visualize scenes)
     setScene(scene);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    setFixedSize(700,700);
-
-    // create the snake
-    newSnake = new snake();
-    newSnake->setRect(0,0,10,10); // change the rect from 0x0 (default) to 10x10 pixels
-    newSnake->setPos(350,350); // start in the middle bottom of screen
-    // make the player focusable and set it to be the current focus
-    newSnake->setFlag(QGraphicsItem::ItemIsFocusable);
-    newSnake->setFocus();
-    // add the player to the scene
-    scene->addItem(newSnake);
+    setFixedSize(1000,725);
 
     Wall * top = new Wall();
     top->setRect(0,0,700,20); // top part of wall
@@ -49,6 +42,14 @@ Game::Game(QWidget *parent){
       food * newFood = new food();
       scene->addItem(newFood);
     }
+    // create the snake
+    newSnake = new snake();
+    newSnake->setPos(350,350); // start in the middle bottom of screen
+    // make the player focusable and set it to be the current focus
+    newSnake->setFlag(QGraphicsItem::ItemIsFocusable);
+    newSnake->setFocus();
+    // add the player to the scene
+    scene->addItem(newSnake);
     show();
 }
 
