@@ -11,7 +11,7 @@ class Field: public QObject, public QGraphicsRectItem {
 public:
   Field();
   ~Field();
-  int food_count = 0;
+  int food_count;
 
 public slots:
     //void spawn(int foodEaten);
