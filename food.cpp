@@ -6,15 +6,17 @@
 #include <QList>
 #include <iostream>
 #include "Game.h"
+#include <time.h> // seed for random number
 
 extern Game * game;
 
 food::food(QGraphicsItem *parent): QObject(), QGraphicsPixmapItem(parent){
+  srand(time(0));
   setPixmap(QPixmap(":/resources/images/covid.png"));
   count = 0;
   int xpos, ypos;
-  xpos = (int)(qrand() % 600);
-  ypos = (int)(qrand() % 600);
+  xpos = (int)(rand() % 1020);
+  ypos = (int)(rand() % 735);
   setPos(xpos,ypos);
 }
 
