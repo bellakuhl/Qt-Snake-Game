@@ -1,0 +1,10 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+    <qresource prefix="/resources">
+        <file>images/ball.png</file>
+        <file>images/grass.jpg</file>
+        <file>images/covid.png</file>
+        <file>images/mask.png</file>
+        <file>images/world.jpg</file>
+    </qresource>
+</RCC>
