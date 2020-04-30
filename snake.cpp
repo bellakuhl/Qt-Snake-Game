@@ -16,7 +16,7 @@
 string prev_dir;
 int length = 0;
 piece * pieces[900];
-int size = 30;
+int size = 45;
 
 snake::snake(QGraphicsItem *parent): QGraphicsPixmapItem(parent){
   setPixmap(QPixmap(":/resources/images/mask.png"));
@@ -26,7 +26,7 @@ snake::snake(QGraphicsItem *parent): QGraphicsPixmapItem(parent){
   // connect time to move
   QTimer * timer = new QTimer();
   QObject::connect(timer,SIGNAL(timeout()),this,SLOT(move()));
-  timer->start(200);
+  timer->start(300);
 }
 
 snake::~snake() {}
@@ -42,12 +42,7 @@ void snake::keyPressEvent(QKeyEvent * event) {
 	  } else if (event->key() == Qt::Key_Down && this->direction.compare("up")) {
   		 this->direction = "down";
 	  }
-  } else {
-  	/*QLabel *label = new QLabel(this);
-  	label->setFrameStyle(QFrame::Panel | QFrame::Sunken);
-	label->setText("DEAD");
-	label->setAlignment(Qt::AlignBottom | Qt::AlignRight);*/
-  }
+  } 
 }
 
 void snake::move() {
@@ -85,7 +80,9 @@ void snake::move() {
       pieces[i]->setPos(pieces[i - 1]->x(), pieces[i - 1]->y());
     }
   }
-  if (!this->direction.compare("up")) { // if direction is up
+  
+   
+	if (!this->direction.compare("up")) { // if direction is up
     setPos(x(), y()-speed);
   } else if (!this->direction.compare("down")) {
     setPos(x(), y()+speed);
@@ -94,35 +91,14 @@ void snake::move() {
   } else if (!this->direction.compare("right")) {
     setPos(x()+speed,y());
   }
-   for (int i = length; i > 2; i--) {
+  for (int i = length; i > 2; i--) {
         if (x() == pieces[i]->x() && y() == pieces[i]->y()) {
           QMessageBox msgBox;
           msgBox.setText("Game Over");
           msgBox.exec();
           scene()->clear();
         }
-  for (int i = length; i > 0; i--) {
-    if (i == 1) {
-      if (!this->direction.compare("up")) { // if direction is up
-        pieces[i]->setPos(x(), y()+45);
-      } else if (!this->direction.compare("down")) {
-        pieces[i]->setPos(x(), y()-45);
-      } else if (!this->direction.compare("left")) {
-        pieces[i]->setPos(x()+45, y());
-      } else if (!this->direction.compare("right")) {
-        pieces[i]->setPos(x()-45, y());
-      }
-    } else {
-      if (!this->direction.compare("up")) { // if direction is up
-        pieces[i]->setPos(pieces[i - 1]->x(), pieces[i - 1]->y()+45); // use previous pieces position offset by size of piece (45)
-      } else if (!this->direction.compare("down")) {
-        pieces[i]->setPos(pieces[i - 1]->x(), pieces[i - 1]->y()-45);
-      } else if (!this->direction.compare("left")) {
-        pieces[i]->setPos(pieces[i - 1]->x()+45, pieces[i - 1]->y());
-      } else if (!this->direction.compare("right")) {
-        pieces[i]->setPos(pieces[i - 1]->x()-45, pieces[i - 1]->y());
-      }
-    }
   }
+  
   
 }
