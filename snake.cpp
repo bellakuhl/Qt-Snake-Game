@@ -18,9 +18,9 @@ int length = 0;
 piece * pieces[900];
 int size = 30;
 
-snake::snake() {
+snake::snake(QGraphicsItem *parent): QGraphicsPixmapItem(parent){
+  setPixmap(QPixmap(":/resources/images/mask.png"));
   this->direction = "up";
-  this->rotated = false;
   this->score = 1;
   this->speed = 1 * size;
   // connect time to move
@@ -66,7 +66,6 @@ void snake::move() {
     		  length++;
           speed += this->score%2;
     		  pieces[length] = new piece();
-    		  pieces[length]->setRect(0,0,size,size);
           pieces[length]->setPos(x(),y());
     		  scene()->addItem(pieces[length]);
           return;
@@ -95,13 +94,35 @@ void snake::move() {
   } else if (!this->direction.compare("right")) {
     setPos(x()+speed,y());
   }
-  for (int i = length; i > 2; i--) {
+   for (int i = length; i > 2; i--) {
         if (x() == pieces[i]->x() && y() == pieces[i]->y()) {
           QMessageBox msgBox;
           msgBox.setText("Game Over");
           msgBox.exec();
           scene()->clear();
         }
+  for (int i = length; i > 0; i--) {
+    if (i == 1) {
+      if (!this->direction.compare("up")) { // if direction is up
+        pieces[i]->setPos(x(), y()+45);
+      } else if (!this->direction.compare("down")) {
+        pieces[i]->setPos(x(), y()-45);
+      } else if (!this->direction.compare("left")) {
+        pieces[i]->setPos(x()+45, y());
+      } else if (!this->direction.compare("right")) {
+        pieces[i]->setPos(x()-45, y());
+      }
+    } else {
+      if (!this->direction.compare("up")) { // if direction is up
+        pieces[i]->setPos(pieces[i - 1]->x(), pieces[i - 1]->y()+45); // use previous pieces position offset by size of piece (45)
+      } else if (!this->direction.compare("down")) {
+        pieces[i]->setPos(pieces[i - 1]->x(), pieces[i - 1]->y()-45);
+      } else if (!this->direction.compare("left")) {
+        pieces[i]->setPos(pieces[i - 1]->x()+45, pieces[i - 1]->y());
+      } else if (!this->direction.compare("right")) {
+        pieces[i]->setPos(pieces[i - 1]->x()-45, pieces[i - 1]->y());
+      }
+    }
   }
   
 }

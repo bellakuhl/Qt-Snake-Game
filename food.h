@@ -2,12 +2,13 @@
 #define FOOD_H
 
 #include <QGraphicsRectItem>
+#include <QGraphicsPixmapItem>
 #include <QObject>
 
-class food: public QObject, public QGraphicsRectItem {
+class food: public QObject,public QGraphicsPixmapItem {
   Q_OBJECT // required Qobject macro
 public:
-  food();
+  food(QGraphicsItem * parent=0);
   ~food();
   int count;
 public slots:
