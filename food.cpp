@@ -13,8 +13,8 @@ food::food(QGraphicsItem *parent): QObject(), QGraphicsPixmapItem(parent){
   setPixmap(QPixmap(":/resources/images/covid.png"));
   count = 0;
   int xpos, ypos;
-  xpos = (int)(qrand() % 990);
-  ypos = (int)(qrand() % 700);
+  xpos = (int)(qrand() % 950);
+  ypos = (int)(qrand() % 680);
   setPos(xpos,ypos);
 }
 
