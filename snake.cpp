@@ -43,10 +43,6 @@ void snake::keyPressEvent(QKeyEvent * event) {
   		 this->direction = "down";
 	  }
   } else {
-  	/*QLabel *label = new QLabel(this);
-  	label->setFrameStyle(QFrame::Panel | QFrame::Sunken);
-	label->setText("DEAD");
-	label->setAlignment(Qt::AlignBottom | Qt::AlignRight);*/
   }
 }
 
@@ -74,7 +70,7 @@ void snake::move() {
         msgBox.setText("Game Over");
         msgBox.exec();
         scene()->clear();
-      } 
+      }
   }
   for (int i = length; i > 0; i--) {
     if (i == 1) {
@@ -101,6 +97,7 @@ void snake::move() {
           msgBox.exec();
           scene()->clear();
         }
+      }
   for (int i = length; i > 0; i--) {
     if (i == 1) {
       if (!this->direction.compare("up")) { // if direction is up
@@ -124,5 +121,5 @@ void snake::move() {
       }
     }
   }
-  
+
 }
