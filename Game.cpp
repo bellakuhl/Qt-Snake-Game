@@ -14,7 +14,7 @@ Game::Game(QWidget *parent){
     scene = new QGraphicsScene();
     QGraphicsView * view = new QGraphicsView(scene);
     displayWelcome();
-    scene->setSceneRect(0,0,1000,725); // make the scene 800x600 instead of infinity by infinity (default)
+    scene->setSceneRect(0,0,1020,735); // make the scene 800x600 instead of infinity by infinity (default)
     setBackgroundBrush(QBrush(QImage(":/resources/images/world.jpg")));
 
     // make the newly created scene the scene to visualize (since Game is a QGraphicsView Widget,
@@ -22,19 +22,19 @@ Game::Game(QWidget *parent){
     setScene(scene);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    setFixedSize(1000,725);
+    setFixedSize(1020,735);
 
     Wall * top = new Wall();
-    top->setRect(0,0,700,20); // top part of wall
+    top->setRect(0,0,1020,20); // top part of wall
     scene->addItem(top);
     Wall * left = new Wall();
-    left->setRect(0,0,20,700); // left part of wall
+    left->setRect(0,0,20,735); // left part of wall
     scene->addItem(left);
     Wall * right = new Wall();
-    right->setRect(680,0,20,700); // right part of wall
+    right->setRect(1000,0,20,735); // right part of wall
     scene->addItem(right);
     Wall * bottom = new Wall();
-    bottom->setRect(0,680,700,20); // bottom part of wall
+    bottom->setRect(0,715,1020,20); // bottom part of wall
     scene->addItem(bottom);
 
     // create the food
