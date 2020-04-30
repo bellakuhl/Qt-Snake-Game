@@ -22,7 +22,7 @@ snake::snake(QGraphicsItem *parent): QGraphicsPixmapItem(parent){
   setPixmap(QPixmap(":/resources/images/mask.png"));
   this->direction = "up";
   this->score = 1;
-  this->speed = 1 * size;
+  this->speed = 14;
   // connect time to move
   QTimer * timer = new QTimer();
   QObject::connect(timer,SIGNAL(timeout()),this,SLOT(move()));
@@ -32,7 +32,7 @@ snake::snake(QGraphicsItem *parent): QGraphicsPixmapItem(parent){
 snake::~snake() {}
 
 void snake::keyPressEvent(QKeyEvent * event) {
-  if ((pos().x() + 5 < 700) && (pos().x() > 0) && (pos().x() + 5 < 700) && (pos().x() > 0)) {
+  //if ((pos().x() + 5 < 1020) && (pos().x() > 0) && (pos().x() + 5 < 735) && (pos().x() > 0)) {
 	  if (event->key() == Qt::Key_Left && this->direction.compare("right")) {
   		this->direction = "left";
 	  } else if (event->key() == Qt::Key_Right && this->direction.compare("left")) {
@@ -42,7 +42,7 @@ void snake::keyPressEvent(QKeyEvent * event) {
 	  } else if (event->key() == Qt::Key_Down && this->direction.compare("up")) {
   		 this->direction = "down";
 	  }
-  } 
+  //}
 }
 
 void snake::move() {
@@ -59,7 +59,7 @@ void snake::move() {
           food * newfood = new food();
     		  scene()->addItem(newfood);
     		  length++;
-          speed += this->score%2;
+          //speed += this->score%2;
     		  pieces[length] = new piece();
           pieces[length]->setPos(x(),y());
     		  scene()->addItem(pieces[length]);
@@ -69,7 +69,7 @@ void snake::move() {
         msgBox.setText("Game Over");
         msgBox.exec();
         scene()->clear();
-      } 
+      }
   }
   for (int i = length; i > 0; i--) {
     if (i == 1) {
@@ -78,10 +78,11 @@ void snake::move() {
     } else {
       // all other segments follow the segment in front
       pieces[i]->setPos(pieces[i - 1]->x(), pieces[i - 1]->y());
+
     }
   }
-  
-   
+
+
 	if (!this->direction.compare("up")) { // if direction is up
     setPos(x(), y()-speed);
   } else if (!this->direction.compare("down")) {
@@ -91,14 +92,14 @@ void snake::move() {
   } else if (!this->direction.compare("right")) {
     setPos(x()+speed,y());
   }
-  for (int i = length; i > 2; i--) {
+  /*for (int i = length; i > 2; i--) {
         if (x() == pieces[i]->x() && y() == pieces[i]->y()) {
           QMessageBox msgBox;
           msgBox.setText("Game Over");
           msgBox.exec();
           scene()->clear();
         }
-  }
-  
-  
+  }*/
+
+
 }
