@@ -15,7 +15,6 @@ food::food(QGraphicsItem *parent): QObject(), QGraphicsPixmapItem(parent){
   int xpos, ypos;
   xpos = (int)(qrand() % 600);
   ypos = (int)(qrand() % 600);
-  //setRect(0,0,5,5);
   setPos(xpos,ypos);
 }
 

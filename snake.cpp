@@ -16,16 +16,17 @@
 string prev_dir;
 int length = 0;
 piece * pieces[900];
+int size = 30;
 
 snake::snake(QGraphicsItem *parent): QGraphicsPixmapItem(parent){
   setPixmap(QPixmap(":/resources/images/mask.png"));
   this->direction = "up";
   this->score = 1;
-  this->speed = 2;
+  this->speed = 1 * size;
   // connect time to move
   QTimer * timer = new QTimer();
   QObject::connect(timer,SIGNAL(timeout()),this,SLOT(move()));
-  timer->start(50);
+  timer->start(200);
 }
 
 snake::~snake() {}
@@ -65,7 +66,6 @@ void snake::move() {
     		  length++;
           speed += this->score%2;
     		  pieces[length] = new piece();
-    		  //pieces[length]->setRect(0,0,10,10);
           pieces[length]->setPos(x(),y());
     		  scene()->addItem(pieces[length]);
           return;
@@ -74,7 +74,16 @@ void snake::move() {
         msgBox.setText("Game Over");
         msgBox.exec();
         scene()->clear();
-      }
+      } 
+  }
+  for (int i = length; i > 0; i--) {
+    if (i == 1) {
+      // first segment of snake follows the head
+      pieces[i]->setPos(x(), y());
+    } else {
+      // all other segments follow the segment in front
+      pieces[i]->setPos(pieces[i - 1]->x(), pieces[i - 1]->y());
+    }
   }
   if (!this->direction.compare("up")) { // if direction is up
     setPos(x(), y()-speed);
@@ -85,13 +94,13 @@ void snake::move() {
   } else if (!this->direction.compare("right")) {
     setPos(x()+speed,y());
   }
-  for (int i = length; i > 2; i--) {
-       if (x() == pieces[i]->x() && y() == pieces[i]->y()) {
-         QMessageBox msgBox;
-         msgBox.setText("Game Over");
-         msgBox.exec();
-         scene()->clear();
-   }
+   for (int i = length; i > 2; i--) {
+        if (x() == pieces[i]->x() && y() == pieces[i]->y()) {
+          QMessageBox msgBox;
+          msgBox.setText("Game Over");
+          msgBox.exec();
+          scene()->clear();
+        }
   for (int i = length; i > 0; i--) {
     if (i == 1) {
       if (!this->direction.compare("up")) { // if direction is up
@@ -115,4 +124,5 @@ void snake::move() {
       }
     }
   }
+  
 }
