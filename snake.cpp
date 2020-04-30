@@ -95,5 +95,5 @@ void snake::move() {
   } else if (!this->direction.compare("right")) {
     setPos(x()+speed,y());
   }
-  
+
 }
