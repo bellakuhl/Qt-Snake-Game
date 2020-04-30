@@ -1,34 +1,43 @@
 #include <QApplication>
-#include <QGraphicsScene>
-#include "snake.h"
-#include "food.h"
-#include <QGraphicsView>
-#include <QTimer>
+#include "Game.h"
+
+Game * game;
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
-    QGraphicsScene * scene = new QGraphicsScene();
-    // create rect item to put in scene
-    snake * newSnake = new snake();
-    food * newFood = new food();
-    newSnake->setRect(0,0,5,10);
-    scene->addItem(newSnake);
+    game = new Game();
+    game->show();
+    /*QGraphicsScene * scene = new QGraphicsScene();
+    displayWelcome();
+
+    // make scene a 700x700 square
     scene->setSceneRect(0,0,700,700);
+    //scene->setPos(350,350);
+
     // make rect focusable
     newSnake->setFlag(QGraphicsItem::ItemIsFocusable);
     newSnake->setFocus();
     // add view to scene
     QGraphicsView * view = new QGraphicsView(scene);
+    newSnake->setPos(view->width()/2,view->height() - newSnake->rect().height());
     view->setFixedSize(700, 700);
     view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    view->show();
-    newSnake->setPos(view->width()/2,view->height() - newSnake->rect().height());
+    QPixmap bg(700, 700);
+    QPainter p(&bg);
+    p.setBrush(QBrush(Qt::gray));
+    p.drawRect(0, 0, 700, 700);
+    view->setBackgroundBrush(QBrush(bg));
 
-    // spawn food randomly
+    view->setScene(scene);*/
+    //view->show();
+    /*QSignalMapper* signalMapper = new QSignalMapper (field) ;
     QTimer * timer = new QTimer();
-    QObject::connect(timer,SIGNAL(timeout()),newFood,SLOT(spawn()));
-    timer->start(2000);
+    QObject::connect (timer, SIGNAL(timeout()), signalMapper, SLOT(map()));
+    signalMapper -> setMapping (timer, newSnake->foodEaten) ;
+    QObject::connect (signalMapper, SIGNAL(mapped(int)), field, SLOT(updateFood(int))) ;
+    timer->start(2000);*/
+
     return app.exec();
 }

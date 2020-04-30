@@ -3,6 +3,7 @@
 
 #include <QGraphicsRectItem>
 #include <QObject>
+#include "piece.h"
 #include <iostream>
 #include <string>
 using namespace std;
@@ -12,8 +13,10 @@ class snake: public QObject, public QGraphicsRectItem {
 public:
   snake();
   ~snake();
-  string direction = "up";
-  bool rotated = false;
+  string direction;
+  bool rotated;
+  int score;
+  int speed;
   void keyPressEvent(QKeyEvent * event);
 public slots:
   void move();

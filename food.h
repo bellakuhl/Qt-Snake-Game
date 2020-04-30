@@ -9,6 +9,7 @@ class food: public QObject, public QGraphicsRectItem {
 public:
   food();
   ~food();
+  int count;
 public slots:
   void spawn();
 };

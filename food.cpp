@@ -3,20 +3,24 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QTimer>
+#include <QList>
 #include <iostream>
 
 food::food(){
+  count = 0;
   int xpos, ypos;
-  xpos = (int)(qrand() % 500);
-  ypos = (int)(qrand() % 700);
-  setRect(0,0,5,5);
+  xpos = (int)(qrand() % 600);
+  ypos = (int)(qrand() % 600);
+  setRect(0,0,30,30);
   setPos(xpos,ypos);
 }
 
 food::~food() {}
 
 void food::spawn() {
-  food * newFood = new food();
-
-  scene()->addItem(newFood);
+  if (this->count < 4) { // only make new food it there are less than 4 on the screen
+    food * newFood = new food();
+    scene()->addItem(newFood);
+    this->count++;
+  }
 }
